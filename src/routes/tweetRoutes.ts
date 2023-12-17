@@ -51,6 +51,7 @@ router.get('/:id', async (req, res) => {
     where: {
       id: Number(id),
     },
+    include: { user: true },
   });
   if (!tweet) {
     res.status(404).json({ error: 'Tweet not found!' });
