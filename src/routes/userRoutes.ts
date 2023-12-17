@@ -1,23 +1,42 @@
 import { Router } from 'express';
+import { PrismaClient } from '@prisma/client';
 
 const router = Router();
+const prisma = new PrismaClient();
 
 // user crud
 
 // Create user
-router.post('/', (req, res) => {
-  res.status(501).json({ error: 'Not Implemented' });
+router.post('/', async(req, res) => {
+  const { email, name, username } = req.body;
+  console.log(email, name, username);
+
+  const result = await prisma.user.create({
+    data: {
+      email,
+      name,
+      username,
+      bio: "hello, I'am new on Twitter",
+    },
+  });
+  res.json(result);
 });
 
 // list users
-router.get('/', (req, res) => {
-  res.status(501).json({ erro: 'Not Implemented' });
+router.get('/', async (req, res) => {
+  const allUser = await prisma.user.findMany();
+  res.json(allUser);
 });
 
 // get one user
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const { id } = req.params;
-  res.status(501).json({ erro: `Not Implemented: ${id}` });
+  const user = await prisma.user.findUnique({
+    where: {
+      id: Number(id),
+    },
+  });
+  res.json(user);
 });
 
 // update user
