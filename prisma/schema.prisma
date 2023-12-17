@@ -22,7 +22,7 @@ model User {
   bio        String?
   isVerified Boolean @default(false)
 
-  Tweet Tweet[]
+  tweets Tweet[]
 }
 
 model Tweet {
